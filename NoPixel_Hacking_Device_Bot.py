@@ -1,3 +1,4 @@
+from math import dist
 import numpy as np # Math
 import cv2 # Computer vision 
 import pyautogui # Button pressing
@@ -29,12 +30,29 @@ def main():
             loc = np.where(res >= threshold)
             detections.append(loc)
             
+        positions = []
         # draw boxes around matches
         if len(detections) > 0:
             for detection in detections:
+                # draw circle at center of detected symbol
                 for pt in zip(*detection[::-1]):
-                    cv2.rectangle(base_draw, pt, (pt[0] + symbol.shape[1], pt[1] + symbol.shape[0]), (0,255,0), 2)
-    
+                    x = int(int(pt[0]) + (symbol.shape[0]/2))
+                    y = int(int(pt[1]) + (symbol.shape[1]/2))
+                    positions.append((x, y))
+        
+        for position in positions:
+            positions_copy = positions.copy()
+            positions_copy.remove(position)
+            
+            min_d = 10000
+            for p in positions_copy:
+                d = dist(position, p)
+                if d < min_d:
+                    min_d = d
+            
+            if min_d <= 45:
+                cv2.circle(base_draw, position, 5, (0,255,0), -1)
+            
         cv2.imshow('base', base_draw)
         cv2.waitKey(1)
 
