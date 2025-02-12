@@ -10,7 +10,7 @@ Script that uses computer vision to do hacking device minigame for you
 
 ## Config
 
-You will have to update the zone for your screen resolution
+You will have to update the zone for your screen resolution [(tool)](https://github.com/NickJordan289/cv2-mss-zone-creator)
 ```
 zone = {"left": 682, "top": 474, "width": 540, "height": 534}
 ```
